@@ -30,6 +30,7 @@ clock = pygame.time.Clock()
 
 class GameObject:
     """Oбъекты игры"""
+
     def __init__(self, body_color):
         # Убедитесь, что 'body_color' является атрибутом класса GameObject
         self.body_color = body_color
