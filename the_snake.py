@@ -32,7 +32,6 @@ class GameObject:
     """Oбъекты игры"""
 
     def __init__(self, body_color):
-        # Убедитесь, что 'body_color' является атрибутом класса GameObject
         self.body_color = body_color
 
 
@@ -41,9 +40,8 @@ class Apple(GameObject):
 
     def __init__(self):
         """Инициализация яблока с случайной позицией"""
-        self.body_color = APPLE_COLOR
+        super().__init__(APPLE_COLOR)  # Передаем цвет в родительский класс
         self.position = self.randomize_position()  # Установим позицию яблока
-        super().__init__(self.body_color)
 
     def randomize_position(self):
         """Устанавливает случайную позицию для яблока"""
@@ -61,10 +59,8 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс змея"""
 
-    def __init__(self, body_color, position):
-        # Вызываем конструктор родительского класса
-        super().__init__(body_color)
-        # Убедитесь, что 'position' является атрибутом класса Snake
+    def __init__(self, body_color, position=(GRID_SIZE, GRID_SIZE)):
+        super().__init__(body_color)  # Передаем цвет в родительский класс
         self.position = position
         self.reset()  # Инициализируем змею в начальном состоянии
 
@@ -80,6 +76,7 @@ class Snake(GameObject):
         delta_x, delta_y = self.direction
         new_head = (head_x + delta_x * GRID_SIZE, head_y + delta_y * GRID_SIZE)
 
+        # Обработка коллизий с границами
         if new_head[0] < 0:  # столкновение с левой границей
             new_head = (SCREEN_WIDTH - GRID_SIZE, new_head[1])
         elif new_head[0] >= SCREEN_WIDTH:  # столкновение с правой границей
@@ -110,7 +107,7 @@ class Snake(GameObject):
         self.length = 1
         self.positions = [(GRID_SIZE, GRID_SIZE)]
         self.direction = RIGHT
-        self.next_direction = None  # Добавляем and следующее направление
+        self.next_direction = None  # Добавляем следующее направление
 
 
 def handle_keys(snake):
@@ -135,7 +132,7 @@ def main():
     pygame.init()
 
     # Создаем экземпляры классов с параметрами
-    snake = Snake(SNAKE_COLOR, (GRID_SIZE, GRID_SIZE))
+    snake = Snake(SNAKE_COLOR)  # Создаем змею с цветом
     apple = Apple()
 
     while True:
