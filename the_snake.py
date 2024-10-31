@@ -20,7 +20,7 @@ APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
 
 # Скорость движения змейки:
-SPEED = 10
+SPEED = 5
 
 # Настройка игрового окна:
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
@@ -42,7 +42,8 @@ class Apple(GameObject):
     def __init__(self):
         """Инициализация яблока с случайной позицией"""
         self.body_color = APPLE_COLOR
-        super().__init__(self.randomize_position())
+        self.position = self.randomize_position()  # Установим позицию яблока
+        super().__init__(self.body_color)
 
     def randomize_position(self):
         """Устанавливает случайную позицию для яблока"""
@@ -65,9 +66,10 @@ class Snake(GameObject):
         super().__init__(body_color)
         # Убедитесь, что 'position' является атрибутом класса Snake
         self.position = position
+        self.reset()  # Инициализируем змею в начальном состоянии
 
     def update_direction(self):
-        """Обновляет направление движения змейки в зависимости от будущего"""
+        """Обновляет направление движения змейки"""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
@@ -108,6 +110,7 @@ class Snake(GameObject):
         self.length = 1
         self.positions = [(GRID_SIZE, GRID_SIZE)]
         self.direction = RIGHT
+        self.next_direction = None  # Добавляем and следующее направление
 
 
 def handle_keys(snake):
@@ -131,8 +134,8 @@ def main():
     """Основной игровой цикл"""
     pygame.init()
 
-    # Создаем экземпляры классов
-    snake = Snake()
+    # Создаем экземпляры классов с параметрами
+    snake = Snake(SNAKE_COLOR, (GRID_SIZE, GRID_SIZE))
     apple = Apple()
 
     while True:
