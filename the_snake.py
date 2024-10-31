@@ -31,17 +31,23 @@ clock = pygame.time.Clock()
 class GameObject:
     """Объекты игры"""
 
-    def __init__(self, body_color=(0, 0, 0)):
+    def __init__(self, position=(0, 0), body_color=(0, 0, 0)):
+        self.position = position
         self.body_color = body_color
+
+    def draw(self, surface):
+        """Метод отрисовки объекта на экране"""
+        x, y = self.position
+        pygame.draw.rect(surface, self.body_color,
+                         (x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
 
 
 class Apple(GameObject):
     """Класс яблоко"""
 
     def __init__(self):
-        """Инициализация яблока с случайной позицией"""
-        super().__init__(APPLE_COLOR)  # Передаем цвет в родительский класс
-        self.position = self.randomize_position()  # Установим позицию яблока
+        position = (randint(0, GRID_WIDTH - 1), randint(0, GRID_HEIGHT - 1))
+        super().__init__(position=position, body_color=APPLE_COLOR)
 
     def randomize_position(self):
         """Устанавливает случайную позицию для яблока"""
