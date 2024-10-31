@@ -29,9 +29,9 @@ clock = pygame.time.Clock()
 
 
 class GameObject:
-    """Oбъекты игры"""
+    """Объекты игры"""
 
-    def __init__(self, body_color):
+    def __init__(self, body_color=(0, 0, 0)):
         self.body_color = body_color
 
 
@@ -59,7 +59,8 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс змея"""
 
-    def __init__(self, body_color, position=(GRID_SIZE, GRID_SIZE)):
+    def __init__(self, body_color=SNAKE_COLOR,
+                 position=(GRID_SIZE, GRID_SIZE)):
         super().__init__(body_color)  # Передаем цвет в родительский класс
         self.position = position
         self.reset()  # Инициализируем змею в начальном состоянии
@@ -77,13 +78,13 @@ class Snake(GameObject):
         new_head = (head_x + delta_x * GRID_SIZE, head_y + delta_y * GRID_SIZE)
 
         # Обработка коллизий с границами
-        if new_head[0] < 0:  # столкновение с левой границей
+        if new_head[0] < 0:
             new_head = (SCREEN_WIDTH - GRID_SIZE, new_head[1])
-        elif new_head[0] >= SCREEN_WIDTH:  # столкновение с правой границей
+        elif new_head[0] >= SCREEN_WIDTH:
             new_head = (0, new_head[1])
-        elif new_head[1] < 0:  # столкновение с верхней границей
+        elif new_head[1] < 0:
             new_head = (new_head[0], SCREEN_HEIGHT - GRID_SIZE)
-        elif new_head[1] >= SCREEN_HEIGHT:  # столкновение с нижней границей
+        elif new_head[1] >= SCREEN_HEIGHT:
             new_head = (new_head[0], 0)
 
         self.positions.insert(0, new_head)
@@ -132,7 +133,7 @@ def main():
     pygame.init()
 
     # Создаем экземпляры классов с параметрами
-    snake = Snake(SNAKE_COLOR)  # Создаем змею с цветом
+    snake = Snake()  # Создаем змею с цветом
     apple = Apple()
 
     while True:
