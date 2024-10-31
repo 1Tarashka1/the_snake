@@ -29,18 +29,10 @@ clock = pygame.time.Clock()
 
 
 class GameObject:
-    """Класс игровых объектов"""
-
-    def __init__(self, position=(0, 0)):
-        """
-        Инициализация базового объекта с заданной позицией.
-        :param position: Координаты объекта на игровом поле.
-        """
-        self.position = position
-
-    def draw(self):
-        """Отрисовка объекта. Должен быть реализован в дочерних классах."""
-        pass
+    """Oбъекты игры"""
+    def __init__(self, body_color):
+        # Убедитесь, что 'body_color' является атрибутом класса GameObject
+        self.body_color = body_color
 
 
 class Apple(GameObject):
@@ -67,13 +59,11 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс змея"""
 
-    def __init__(self):
-        """Инициализация змейки"""
-        self.length = 1
-        self.positions = [(GRID_SIZE, GRID_SIZE)]  # Начальная позиция головы
-        self.direction = RIGHT
-        self.next_direction = None
-        self.body_color = SNAKE_COLOR
+    def __init__(self, body_color, position):
+        # Вызываем конструктор родительского класса
+        super().__init__(body_color)
+        # Убедитесь, что 'position' является атрибутом класса Snake
+        self.position = position
 
     def update_direction(self):
         """Обновляет направление движения змейки в зависимости от будущего"""
